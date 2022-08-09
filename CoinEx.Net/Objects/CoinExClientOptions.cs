@@ -29,6 +29,15 @@ namespace CoinEx.Net.Objects
                         .AddPartialEndpointLimit("/v1/order/", 100, TimeSpan.FromSeconds(10), countPerEndpoint: true)
                 }
         };
+
+        private RestApiClientOptions _futuresApiOptions = new RestApiClientOptions(CoinExApiAddresses.Default.FuturesRestClientAddress)
+        {
+            RateLimiters = new List<IRateLimiter>
+                {
+                    new RateLimiter()
+                        .AddPartialEndpointLimit("/v1/order/", 100, TimeSpan.FromSeconds(10), countPerEndpoint: true)
+                }
+        };
         /// <summary>
         /// Spot API options
         /// </summary>
@@ -36,6 +45,14 @@ namespace CoinEx.Net.Objects
         {
             get => _spotApiOptions;
             set => _spotApiOptions = new RestApiClientOptions(_spotApiOptions, value);
+        }
+        /// <summary>
+        /// Spot API options
+        /// </summary>
+        public RestApiClientOptions FuturesApiOptions
+        {
+            get => _futuresApiOptions;
+            set => _futuresApiOptions = new RestApiClientOptions(_futuresApiOptions, value);
         }
 
         /// <summary>
@@ -93,6 +110,7 @@ namespace CoinEx.Net.Objects
         }
 
         private ApiClientOptions _spotStreamsOptions = new ApiClientOptions(CoinExApiAddresses.Default.SocketClientAddress);
+        private ApiClientOptions _futuresStreamsOptions = new ApiClientOptions(CoinExApiAddresses.Default.FuturesSocketClientAddress);
         /// <summary>
         /// Spot stream options
         /// </summary>
@@ -100,6 +118,14 @@ namespace CoinEx.Net.Objects
         {
             get => _spotStreamsOptions;
             set => _spotStreamsOptions = new ApiClientOptions(_spotStreamsOptions, value);
+        }        
+        /// <summary>
+        /// Spot stream options
+        /// </summary>
+        public ApiClientOptions FuturesStreamsOptions
+        {
+            get => _futuresStreamsOptions;
+            set => _futuresStreamsOptions = new ApiClientOptions(_futuresStreamsOptions, value);
         }
 
         /// <summary>
@@ -120,6 +146,7 @@ namespace CoinEx.Net.Objects
 
             NonceProvider = baseOn.NonceProvider;
             _spotStreamsOptions = new ApiClientOptions(baseOn.SpotStreamsOptions, null);
+            _futuresStreamsOptions = new ApiClientOptions(baseOn.FuturesStreamsOptions, null);
         }
     }
 

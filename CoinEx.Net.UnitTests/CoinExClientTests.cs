@@ -17,30 +17,32 @@ using CryptoExchange.Net.Objects;
 using CryptoExchange.Net.Sockets;
 using CoinEx.Net.Clients;
 using CoinEx.Net.Clients.SpotApi;
+using CoinEx.Net.Objects.Models;
+using CoinEx.Net.Testing;
 
 namespace CoinEx.Net.UnitTests
 {
     [TestFixture]
     public class CoinExClientTests
     {
-        //[Test]
-        //public async Task GetKlines_Should_RespondWithKlines()
-        //{
-        //    // arrange
-        //    CoinExKline[] expected = new CoinExKline[] {
-        //        new CoinExKline(),
-        //        new CoinExKline(),
-        //    };
-        //    var objects = TestHelpers.PrepareClient(() => Construct(), CreateRequest(expected));
+        [Test]
+        public async Task GetKlines_Should_RespondWithKlines()
+        {
+            // arrange
+            CoinExKline[] expected = new CoinExKline[] {
+                new CoinExKline(),
+                new CoinExKline(),
+            };
+            var objects = new CoinExClient();
 
-        //    // act
-        //    var result = await objects.Client.GetKlinesAsync("ETHBTC", KlineInterval.FiveMinute);
+            // act
+            var result = await objects.FuturesApi.ExchangeData.GetKlinesAsync("TRXUSDT", KlineInterval.FiveMinutes);
 
-        //    // assert
-        //    Assert.AreEqual(true, result.Success);
-        //    TestHelpers.PublicInstancePropertiesEqual(expected[0], result.Data.ToList()[0]);
-        //    TestHelpers.PublicInstancePropertiesEqual(expected[1], result.Data.ToList()[1]);
-        //}
+            // assert
+            Assert.AreEqual(true, result.Success);
+            TestHelpers.PublicInstancePropertiesEqual(expected[0], result.Data.ToList()[0]);
+            TestHelpers.PublicInstancePropertiesEqual(expected[1], result.Data.ToList()[1]);
+        }
 
         //[Test]
         //public async Task ReceivingCoinExError_Should_ReturnCoinExErrorAndNotSuccess()
@@ -72,7 +74,7 @@ namespace CoinEx.Net.UnitTests
         //    Assert.IsNotNull(result.Error);
         //    Assert.IsTrue(result.Error.ToString().Contains("Error request"));
         //}
-      
+
         //[Test]
         //public async Task AuthenticatedRequests_Should_HaveAuthenticationHeader()
         //{
@@ -89,21 +91,20 @@ namespace CoinEx.Net.UnitTests
         //    objects.Request.Verify(r => r.AddHeader("Authorization", It.IsAny<string>()));
         //}
 
-        //[Test]
-        //public async Task PostRequests_Should_HaveContentBody()
-        //{
-        //    // arrange
-        //    var objects = TestHelpers.PrepareClient(() => Construct(new CoinExClientOptions()
-        //    {
-        //        ApiCredentials = new ApiCredentials("test", "test")
-        //    }), CreateRequest("{}"));
+        [Test]
+        public async Task PostRequests_Should_HaveContentBody()
+        {
+            // arrange
+            var objects = new CoinExClientOptions()
+            {
+                ApiCredentials = new ApiCredentials("4DA36FFC61334695A66F8D29020EB589", "B51068CF10B34E7789C374AB932696A05E0A629BE7BFC62F")
+            };
 
-        //    // act
-        //    var result = await objects.Client.PlaceOrderAsync("BTCETH", OrderType.Limit, OrderSide.Buy, 1, 1);
+            var client=new CoinExClient(objects);
 
-        //    // assert
-        //    objects.Request.Verify(r => r.SetContent(It.IsAny<string>(), It.IsAny<string>()));
-        //}
+            // act
+            var result = await client.FuturesApi.Trading.PlaceOrderAsync("BTCUSDT",FuturesOrderSide.LongBuy, OrderType.Market, 1, 1,3);
+        }
 
         [Test]
         public void ProvidingApiCredentials_Should_SaveApiCredentials()

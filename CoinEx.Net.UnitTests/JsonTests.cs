@@ -25,7 +25,7 @@ namespace CoinEx.Net.UnitTests
         [Test]
         public async Task ValidateSpotAccountCalls()
         {   
-            await _comparer.ProcessSubject("Spot/Account", c => c.SpotApi.Account,
+            await _comparer.ProcessSubject("Futures/Account", c => c.FuturesApi.Account,
                 useNestedJsonPropertyForCompare: new Dictionary<string, string> 
                 { 
 

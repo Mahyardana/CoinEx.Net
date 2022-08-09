@@ -12,7 +12,15 @@
         /// <summary>
         /// The address used by the CoinExSocketClient for the socket API
         /// </summary>
-        public string SocketClientAddress { get; set; } = "";
+        public string SocketClientAddress { get; set; } = "";        
+        /// <summary>
+        /// The address used by the CoinExClient for the rest API
+        /// </summary>
+        public string FuturesRestClientAddress { get; set; } = "";
+        /// <summary>
+        /// The address used by the CoinExSocketClient for the socket API
+        /// </summary>
+        public string FuturesSocketClientAddress { get; set; } = "";
 
         /// <summary>
         /// The default addresses to connect to the CoinEx.com API
@@ -20,7 +28,9 @@
         public static CoinExApiAddresses Default = new CoinExApiAddresses
         {
             RestClientAddress = "https://api.coinex.com/v1",
-            SocketClientAddress = "wss://socket.coinex.com/"
+            SocketClientAddress = "wss://socket.coinex.com/",
+            FuturesRestClientAddress= "https://api.coinex.com/perpetual/v1",
+            FuturesSocketClientAddress= "wss://perpetual.coinex.com/"
         };
     }
 }

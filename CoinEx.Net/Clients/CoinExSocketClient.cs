@@ -11,7 +11,9 @@ using System.Threading;
 using CoinEx.Net.Objects.Internal;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients.SpotApi;
+using CoinEx.Net.Interfaces.Clients.FuturesApi;
 using CoinEx.Net.Clients.SpotApi;
+using CoinEx.Net.Clients.FuturesApi;
 
 namespace CoinEx.Net.Clients
 {
@@ -24,12 +26,15 @@ namespace CoinEx.Net.Clients
         private const string AuthenticateAction = "sign";
 
         private const string SuccessString = "success";
+
+        private readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0);
         #endregion
 
         #region Api clients
 
         /// <inheritdoc />
         public ICoinExSocketClientSpotStreams SpotStreams { get; }
+        public ICoinExSocketClientFuturesStreams FuturesStreams { get; }
 
         #endregion
 
@@ -48,6 +53,7 @@ namespace CoinEx.Net.Clients
         public CoinExSocketClient(CoinExSocketClientOptions options) : base("CoinEx", options)
         {
             SpotStreams = AddApiClient(new CoinExSocketClientSpotStreams(log, this, options));
+            FuturesStreams = AddApiClient(new CoinExSocketClientFuturesStreams(log, this, options));
 
             AddGenericHandler("Pong", (messageEvent) => { });
             SendPeriodic("Ping", TimeSpan.FromMinutes(1), con => new CoinExSocketRequest(NextId(), ServerSubject, PingAction));
@@ -70,10 +76,20 @@ namespace CoinEx.Net.Clients
             if (apiClient.AuthenticationProvider!.Credentials.Key == null || apiClient.AuthenticationProvider.Credentials.Secret == null)
                 throw new ArgumentException("ApiKey/Secret not provided");
 
-            var tonce = ((CoinExAuthenticationProvider)apiClient.AuthenticationProvider).GetNonce();
-            var parameterString = $"access_id={apiClient.AuthenticationProvider.Credentials.Key.GetString()}&tonce={tonce}&secret_key={apiClient.AuthenticationProvider.Credentials.Secret.GetString()}";
-            var auth = apiClient.AuthenticationProvider.Sign(parameterString);
-            return new object[] { apiClient.AuthenticationProvider.Credentials.Key.GetString(), auth, tonce };
+            if (apiClient.GetType() == typeof(CoinExSocketClientFuturesStreams))
+            {
+                var ts = (long)(DateTime.UtcNow - Epoch).TotalMilliseconds;
+                var parameterString = $"access_id={apiClient.AuthenticationProvider.Credentials.Key.GetString()}&timestamp={ts}&secret_key={apiClient.AuthenticationProvider.Credentials.Secret.GetString()}";
+                var auth = ((CoinExAuthenticationProvider)apiClient.AuthenticationProvider).SignSHA(parameterString);
+                return new object[] { apiClient.AuthenticationProvider.Credentials.Key.GetString(), auth, ts };
+            }
+            else
+            {
+                var tonce = ((CoinExAuthenticationProvider)apiClient.AuthenticationProvider).GetNonce();
+                var parameterString = $"access_id={apiClient.AuthenticationProvider.Credentials.Key.GetString()}&tonce={tonce}&secret_key={apiClient.AuthenticationProvider.Credentials.Secret.GetString()}";
+                var auth = apiClient.AuthenticationProvider.Sign(parameterString);
+                return new object[] { apiClient.AuthenticationProvider.Credentials.Key.GetString(), auth, tonce };
+            }
         }
 
         internal int NextIdInternal()

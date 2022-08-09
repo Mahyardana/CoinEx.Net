@@ -1,4 +1,5 @@
 ﻿using CoinEx.Net.Interfaces.Clients.SpotApi;
+using CoinEx.Net.Interfaces.Clients.FuturesApi;
 using CryptoExchange.Net.Interfaces;
 
 namespace CoinEx.Net.Interfaces.Clients
@@ -12,5 +13,6 @@ namespace CoinEx.Net.Interfaces.Clients
         /// Spot endpoints
         /// </summary>
         ICoinExClientSpotApi SpotApi { get; }
+        ICoinExClientFuturesApi FuturesApi { get; }
     }
 }

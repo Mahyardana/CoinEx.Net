@@ -11,7 +11,9 @@ using CoinEx.Net.Objects.Internal;
 using CoinEx.Net.Objects.Models;
 using CoinEx.Net.Interfaces.Clients;
 using CoinEx.Net.Interfaces.Clients.SpotApi;
+using CoinEx.Net.Interfaces.Clients.FuturesApi;
 using CoinEx.Net.Clients.SpotApi;
+using CoinEx.Net.Clients.FuturesApi;
 using CryptoExchange.Net.CommonObjects;
 
 namespace CoinEx.Net.Clients
@@ -28,11 +30,13 @@ namespace CoinEx.Net.Clients
         /// Event triggered when an order is canceled via this client. Note that this does not trigger when using CancelAllOrdersAsync
         /// </summary>
         public event Action<OrderId>? OnOrderCanceled;
+        
         #endregion
 
         #region Api clients
         /// <inheritdoc />
         public ICoinExClientSpotApi SpotApi { get; }
+        public ICoinExClientFuturesApi FuturesApi { get; }
         #endregion
 
         #region ctor
@@ -50,6 +54,7 @@ namespace CoinEx.Net.Clients
         public CoinExClient(CoinExClientOptions options) : base("CoinEx", options)
         {
             SpotApi = AddApiClient(new CoinExClientSpotApi(log, this, options));
+            FuturesApi = AddApiClient(new CoinExClientFuturesApi(log, this, options));
         }
         #endregion
 

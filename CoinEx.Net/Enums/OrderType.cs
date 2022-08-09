@@ -8,18 +8,18 @@
         /// <summary>
         /// Limit order
         /// </summary>
-        Limit,
+        Limit=1,
         /// <summary>
         /// Market order
         /// </summary>
-        Market,
+        Market=2,
         /// <summary>
         /// Stop limit order
         /// </summary>
-        StopLimit,
+        StopLimit=3,
         /// <summary>
         /// Stop market order
         /// </summary>
-        StopMarket
+        StopMarket=4
     }
 }
