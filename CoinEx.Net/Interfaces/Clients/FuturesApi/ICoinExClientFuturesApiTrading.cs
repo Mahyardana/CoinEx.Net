@@ -56,7 +56,7 @@ namespace CoinEx.Net.Interfaces.Clients.FuturesApi
         /// <param name="ct">Cancellation token</param>
         /// <returns>List of open orders for a symbol</returns>
         Task<WebCallResult<IEnumerable<CoinExPosition>>> GetOpenPositionsAsync(string? symbol = null, CancellationToken ct = default);
-
+        Task<WebCallResult<CoinexAdjustLeverage>> AdjustLeverageAsync(string symbol, int leverage, int positiontype, CancellationToken ct = default);
         /// <summary>
         /// Retrieves a list of open stop orders for a symbol. Requires API credentials
         /// <para><a href="https://github.com/coinexcom/coinex_exchange_api/wiki/041stop_pending" /></para>

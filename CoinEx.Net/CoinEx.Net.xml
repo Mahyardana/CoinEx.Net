@@ -204,6 +204,10 @@
         <member name="M:CoinEx.Net.Clients.FuturesApi.CoinExClientFuturesApiTrading.GetOpenPositionsAsync(System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:CoinEx.Net.Clients.FuturesApi.CoinExClientFuturesApiTrading.AdjustLeverageAsync(System.String,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <inheritdoc />
+            position type 1 Isolated Margin 2 Cross Margin
+        </member>
         <member name="M:CoinEx.Net.Clients.FuturesApi.CoinExClientFuturesApiTrading.GetOpenStopOrdersAsync(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -1881,6 +1885,11 @@
         </member>
         <member name="M:CoinEx.Net.Objects.Internal.CoinExNonceProvider.GetNonce">
             <inheritdoc />
+        </member>
+        <member name="T:CoinEx.Net.Objects.Models.CoinexAdjustLeverage">
+            <summary>
+            Adjust Leverage info
+            </summary>
         </member>
         <member name="T:CoinEx.Net.Objects.Models.CoinExAssetConfig">
             <summary>

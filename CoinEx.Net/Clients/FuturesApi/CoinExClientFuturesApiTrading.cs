@@ -32,6 +32,7 @@ namespace CoinEx.Net.Clients.FuturesApi
         private const string CancelOrderEndpoint = "order/pending";
         private const string MarketCloseAllEndpoint = "position/market_close";
         private const string CancelStopOrderEndpoint = "order/stop/pending";
+        private const string AdjustLeverageEndpoint = "market/adjust_leverage";
 
         private readonly CoinExClientFuturesApi _baseClient;
 
@@ -104,6 +105,20 @@ namespace CoinEx.Net.Clients.FuturesApi
             parameters.AddOptionalParameter("market", symbol);
 
             return await _baseClient.Execute<IEnumerable<CoinExPosition>>(_baseClient.GetUrl(OpenPositionsEndpoint), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        /// position type 1 Isolated Margin 2 Cross Margin
+        public async Task<WebCallResult<CoinexAdjustLeverage>> AdjustLeverageAsync(string symbol,int leverage,int positiontype, CancellationToken ct = default)
+        {
+            symbol?.ValidateCoinExSymbol();
+            var parameters = new Dictionary<string, object>();
+
+            parameters.AddOptionalParameter("market", symbol);
+            parameters.AddOptionalParameter("leverage", leverage.ToString());
+            parameters.AddOptionalParameter("position_type", positiontype);
+
+            return await _baseClient.Execute<CoinexAdjustLeverage>(_baseClient.GetUrl(AdjustLeverageEndpoint), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
