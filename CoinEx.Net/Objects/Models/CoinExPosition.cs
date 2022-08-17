@@ -54,6 +54,9 @@ namespace CoinEx.Net.Objects.Models
         [JsonConverter(typeof(DecimalConverter))]
         [JsonProperty("profit_real")]
         public decimal RealizedPNL { get; set; }
+        [JsonConverter(typeof(DecimalConverter))]
+        [JsonProperty("profit_unreal")]
+        public decimal UnrealizedPNL { get; set; }
         /// <summary>
         /// Unsettled PNL
         /// </summary>
