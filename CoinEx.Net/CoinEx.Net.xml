@@ -208,6 +208,13 @@
             <inheritdoc />
             position type 1 Isolated Margin 2 Cross Margin
         </member>
+        <member name="M:CoinEx.Net.Clients.FuturesApi.CoinExClientFuturesApiTrading.PositionStopLossSettings(System.String,System.Int64,System.Int32,System.Decimal,System.Threading.CancellationToken)">
+            <inheritdoc />
+            position type 1 Isolated Margin 2 Cross Margin
+        </member>
+        <member name="M:CoinEx.Net.Clients.FuturesApi.CoinExClientFuturesApiTrading.GetMarketListAsync(System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:CoinEx.Net.Clients.FuturesApi.CoinExClientFuturesApiTrading.GetOpenStopOrdersAsync(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -2161,6 +2168,11 @@
             The name of the symbol
             </summary>
         </member>
+        <member name="T:CoinEx.Net.Objects.Models.CoinExMarketList">
+            <summary>
+            Symbol Info
+            </summary>
+        </member>
         <member name="T:CoinEx.Net.Objects.Models.CoinExMiningDifficulty">
             <summary>
             Mining difficulty info
@@ -2550,6 +2562,11 @@
         <member name="P:CoinEx.Net.Objects.Models.CoinExPosition.CreateTime">
             <summary>
             The time the order was created
+            </summary>
+        </member>
+        <member name="T:CoinEx.Net.Objects.Models.CoinExStopLossSettings">
+            <summary>
+            Symbol Info
             </summary>
         </member>
         <member name="T:CoinEx.Net.Objects.Models.CoinExSymbol">

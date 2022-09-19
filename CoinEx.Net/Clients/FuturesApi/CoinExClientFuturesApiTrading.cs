@@ -25,6 +25,7 @@ namespace CoinEx.Net.Clients.FuturesApi
         private const string PlaceImmediateOrCancelOrderEndpoint = "order/ioc";
         private const string FinishedOrdersEndpoint = "order/finished";
         private const string OpenPositionsEndpoint = "position/pending";
+        private const string PositionStopLossSettingsEndpoint = "position/stop_loss";
         private const string OpenStopOrdersEndpoint = "order/stop/pending";
         private const string OrderStatusEndpoint = "order/status";
         private const string OrderDetailsEndpoint = "order/deals";
@@ -33,6 +34,7 @@ namespace CoinEx.Net.Clients.FuturesApi
         private const string MarketCloseAllEndpoint = "position/market_close";
         private const string CancelStopOrderEndpoint = "order/stop/pending";
         private const string AdjustLeverageEndpoint = "market/adjust_leverage";
+        private const string MarketListEndpoint = "market/list";
 
         private readonly CoinExClientFuturesApi _baseClient;
 
@@ -119,6 +121,27 @@ namespace CoinEx.Net.Clients.FuturesApi
             parameters.AddOptionalParameter("position_type", positiontype);
 
             return await _baseClient.Execute<CoinexAdjustLeverage>(_baseClient.GetUrl(AdjustLeverageEndpoint), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        /// position type 1 Isolated Margin 2 Cross Margin
+        public async Task<WebCallResult<CoinExStopLossSettings>> PositionStopLossSettings(string symbol, long position_id, int stop_type,decimal stop_loss_price, CancellationToken ct = default)
+        {
+            symbol?.ValidateCoinExSymbol();
+            var parameters = new Dictionary<string, object>();
+
+            parameters.AddOptionalParameter("market", symbol);
+            parameters.AddOptionalParameter("position_id", position_id);
+            parameters.AddOptionalParameter("stop_type", stop_type);
+            parameters.AddOptionalParameter("stop_loss_price", stop_loss_price.ToString());
+
+            return await _baseClient.Execute<CoinExStopLossSettings>(_baseClient.GetUrl(PositionStopLossSettingsEndpoint), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult<IEnumerable<CoinExMarketList>>> GetMarketListAsync(CancellationToken ct = default)
+        {
+            return await _baseClient.Execute<IEnumerable<CoinExMarketList>>(_baseClient.GetUrl(MarketListEndpoint), HttpMethod.Get, ct).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
@@ -245,6 +268,5 @@ namespace CoinEx.Net.Clients.FuturesApi
 
             return await _baseClient.Execute(_baseClient.GetUrl(CancelStopOrderEndpoint), HttpMethod.Delete, ct, parameters, true).ConfigureAwait(false);
         }
-
     }
 }
