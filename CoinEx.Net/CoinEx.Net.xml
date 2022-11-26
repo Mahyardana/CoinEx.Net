@@ -2564,6 +2564,11 @@
             The time the order was created
             </summary>
         </member>
+        <member name="T:CoinEx.Net.Objects.Models.CoinExRecords`1">
+            <summary>
+            Withdrawal info
+            </summary>
+        </member>
         <member name="T:CoinEx.Net.Objects.Models.CoinExStopLossSettings">
             <summary>
             Symbol Info
@@ -2727,6 +2732,26 @@
         <member name="P:CoinEx.Net.Objects.Models.CoinExSymbolTrade.Side">
             <summary>
             Order side
+            </summary>
+        </member>
+        <member name="T:CoinEx.Net.Objects.Models.CoinExTransferRecord">
+            <summary>
+            Withdrawal info
+            </summary>
+        </member>
+        <member name="P:CoinEx.Net.Objects.Models.CoinExTransferRecord.Quantity">
+            <summary>
+            The total quantity of the withdrawal
+            </summary>
+        </member>
+        <member name="P:CoinEx.Net.Objects.Models.CoinExTransferRecord.Asset">
+            <summary>
+            The name of the asset of the withdrawal
+            </summary>
+        </member>
+        <member name="P:CoinEx.Net.Objects.Models.CoinExTransferRecord.CreateTime">
+            <summary>
+            The time the withdrawal was created
             </summary>
         </member>
         <member name="T:CoinEx.Net.Objects.Models.CoinExWithdrawal">

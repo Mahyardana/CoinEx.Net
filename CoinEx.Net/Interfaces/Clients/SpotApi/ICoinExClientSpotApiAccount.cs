@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CoinEx.Net.Objects.Models;
+using System;
 
 namespace CoinEx.Net.Interfaces.Clients.SpotApi
 {
@@ -51,6 +52,8 @@ namespace CoinEx.Net.Interfaces.Clients.SpotApi
         /// <param name="ct">Cancellation token</param>
         /// <returns></returns>
         Task<WebCallResult<CoinExPagedResult<CoinExWithdrawal>>> GetWithdrawalHistoryAsync(string? asset = null, long? withdrawId = null, int? page = null, int? limit = null, CancellationToken ct = default);
+
+        Task<WebCallResult<CoinExRecords<CoinExTransferRecord>>> GetTransferRecordSpotFuturesAsync(string? asset = null, string? transfer_type = null, DateTime? start_time = null, DateTime? end_time = null, int? page = null, int? limit = null, CancellationToken ct = default);
 
         /// <summary>
         /// Withdraw assets from CoinEx to a specific address. Requires API credentials and withdrawal permission on the API key

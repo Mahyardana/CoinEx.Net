@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using CoinEx.Net.Objects.Models;
 using CoinEx.Net.Interfaces.Clients.SpotApi;
+using System;
+using CryptoExchange.Net.Converters;
 
 namespace CoinEx.Net.Clients.SpotApi
 {
@@ -15,6 +17,7 @@ namespace CoinEx.Net.Clients.SpotApi
     {
         private const string AccountInfoEndpoint = "balance/info";
         private const string WithdrawalHistoryEndpoint = "balance/coin/withdraw";
+        private const string TransferRecordSpotFuturesEndpoint = "contract/transfer/history";
         private const string DepositHistoryEndpoint = "balance/coin/deposit";
         private const string WithdrawEndpoint = "balance/coin/withdraw";
         private const string CancelWithdrawalEndpoint = "balance/coin/withdraw";
@@ -64,6 +67,19 @@ namespace CoinEx.Net.Clients.SpotApi
             parameters.AddOptionalParameter("limit", limit);
 
             return await _baseClient.Execute<CoinExPagedResult<CoinExWithdrawal>>(_baseClient.GetUrl(WithdrawalHistoryEndpoint), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
+        }
+        public async Task<WebCallResult<CoinExRecords<CoinExTransferRecord>>> GetTransferRecordSpotFuturesAsync(string? asset = null, string? transfer_type = null, DateTime? start_time = null, DateTime? end_time = null, int? page = null, int? limit = null, CancellationToken ct = default)
+        {
+            limit?.ValidateIntBetween(nameof(limit), 1, 100);
+            var parameters = new Dictionary<string, object>();
+            parameters.AddOptionalParameter("asset", asset);
+            parameters.AddOptionalParameter("transfer_type", transfer_type);
+            parameters.AddOptionalParameter("start_time", DateTimeConverter.ConvertToSeconds(start_time));
+            parameters.AddOptionalParameter("end_time", DateTimeConverter.ConvertToSeconds(end_time));
+            parameters.AddOptionalParameter("page", page);
+            parameters.AddOptionalParameter("limit", limit);
+
+            return await _baseClient.Execute<CoinExRecords<CoinExTransferRecord>>(_baseClient.GetUrl(TransferRecordSpotFuturesEndpoint), HttpMethod.Get, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <inheritdoc />
