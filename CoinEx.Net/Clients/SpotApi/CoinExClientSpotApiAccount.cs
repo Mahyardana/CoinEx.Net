@@ -17,6 +17,7 @@ namespace CoinEx.Net.Clients.SpotApi
     {
         private const string AccountInfoEndpoint = "balance/info";
         private const string WithdrawalHistoryEndpoint = "balance/coin/withdraw";
+        private const string PerpetualTransferEndpoint = "contract/balance/transfer";
         private const string TransferRecordSpotFuturesEndpoint = "contract/transfer/history";
         private const string DepositHistoryEndpoint = "balance/coin/deposit";
         private const string WithdrawEndpoint = "balance/coin/withdraw";
@@ -97,6 +98,20 @@ namespace CoinEx.Net.Clients.SpotApi
             parameters.AddOptionalParameter("smart_contract_name", network);
 
             return await _baseClient.Execute<CoinExWithdrawal>(_baseClient.GetUrl(WithdrawEndpoint), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public async Task<WebCallResult> PerpetualTransferAsync(string asset, string transferside, decimal quantity, CancellationToken ct = default)
+        {
+            asset.ValidateNotNull(nameof(asset));
+            var parameters = new Dictionary<string, object>
+            {
+                { "coin_type", asset },
+                { "transfer_side", transferside },
+                { "amount", quantity.ToString(CultureInfo.InvariantCulture) }
+            };
+
+            return await _baseClient.Execute(_baseClient.GetUrl(PerpetualTransferEndpoint), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <inheritdoc />

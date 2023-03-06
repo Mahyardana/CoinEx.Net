@@ -76,5 +76,7 @@ namespace CoinEx.Net.Interfaces.Clients.SpotApi
         /// <param name="ct">Cancellation token</param>
         /// <returns>True if successful, false otherwise</returns>
         Task<WebCallResult<bool>> CancelWithdrawalAsync(long withdrawId, CancellationToken ct = default);
+
+        Task<WebCallResult> PerpetualTransferAsync(string asset, string transferside, decimal quantity, CancellationToken ct = default);
     }
 }

@@ -364,6 +364,9 @@
         <member name="M:CoinEx.Net.Clients.SpotApi.CoinExClientSpotApiAccount.WithdrawAsync(System.String,System.String,System.Boolean,System.Decimal,System.String,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
+        <member name="M:CoinEx.Net.Clients.SpotApi.CoinExClientSpotApiAccount.PerpetualTransferAsync(System.String,System.String,System.Decimal,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
         <member name="M:CoinEx.Net.Clients.SpotApi.CoinExClientSpotApiAccount.CancelWithdrawalAsync(System.Int64,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
@@ -2732,6 +2735,11 @@
         <member name="P:CoinEx.Net.Objects.Models.CoinExSymbolTrade.Side">
             <summary>
             Order side
+            </summary>
+        </member>
+        <member name="T:CoinEx.Net.Objects.Models.CoinExTransfer">
+            <summary>
+            Order info
             </summary>
         </member>
         <member name="T:CoinEx.Net.Objects.Models.CoinExTransferRecord">
