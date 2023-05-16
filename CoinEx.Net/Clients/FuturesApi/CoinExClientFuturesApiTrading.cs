@@ -26,6 +26,7 @@ namespace CoinEx.Net.Clients.FuturesApi
         private const string FinishedOrdersEndpoint = "order/finished";
         private const string OpenPositionsEndpoint = "position/pending";
         private const string PositionStopLossSettingsEndpoint = "position/stop_loss";
+        private const string PositionTakeProfitSettingsEndpoint = "position/take_profit";
         private const string OpenStopOrdersEndpoint = "order/stop/pending";
         private const string OrderStatusEndpoint = "order/status";
         private const string OrderDetailsEndpoint = "order/deals";
@@ -136,6 +137,19 @@ namespace CoinEx.Net.Clients.FuturesApi
             parameters.AddOptionalParameter("stop_loss_price", stop_loss_price.ToString());
 
             return await _baseClient.Execute<CoinExStopLossSettings>(_baseClient.GetUrl(PositionStopLossSettingsEndpoint), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
+        }
+
+        public async Task<WebCallResult<CoinExTakeProfitSettings>> PositionTakeProfitSettings(string symbol, long position_id, int stop_type, decimal take_profit_price, CancellationToken ct = default)
+        {
+            symbol?.ValidateCoinExSymbol();
+            var parameters = new Dictionary<string, object>();
+
+            parameters.AddOptionalParameter("market", symbol);
+            parameters.AddOptionalParameter("position_id", position_id);
+            parameters.AddOptionalParameter("stop_type", stop_type);
+            parameters.AddOptionalParameter("take_profit_price", take_profit_price.ToString());
+
+            return await _baseClient.Execute<CoinExTakeProfitSettings>(_baseClient.GetUrl(PositionTakeProfitSettingsEndpoint), HttpMethod.Post, ct, parameters, true).ConfigureAwait(false);
         }
 
         /// <inheritdoc />

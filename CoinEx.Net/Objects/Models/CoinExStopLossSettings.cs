@@ -11,4 +11,9 @@ namespace CoinEx.Net.Objects.Models
         [JsonProperty("market")]
         public string Market { get; set; } = string.Empty;
     }
+    public class CoinExTakeProfitSettings
+    {
+        [JsonProperty("market")]
+        public string Market { get; set; } = string.Empty;
+    }
 }

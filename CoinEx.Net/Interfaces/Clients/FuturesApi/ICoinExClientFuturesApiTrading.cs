@@ -58,6 +58,7 @@ namespace CoinEx.Net.Interfaces.Clients.FuturesApi
         Task<WebCallResult<IEnumerable<CoinExPosition>>> GetOpenPositionsAsync(string? symbol = null, CancellationToken ct = default);
         Task<WebCallResult<IEnumerable<CoinExMarketList>>> GetMarketListAsync(CancellationToken ct = default);
         Task<WebCallResult<CoinExStopLossSettings>> PositionStopLossSettings(string symbol, long position_id, int stop_type, decimal stop_loss_price, CancellationToken ct = default);
+        Task<WebCallResult<CoinExTakeProfitSettings>> PositionTakeProfitSettings(string symbol, long position_id, int stop_type, decimal take_profit_price, CancellationToken ct = default);
         Task<WebCallResult<CoinexAdjustLeverage>> AdjustLeverageAsync(string symbol, int leverage, int positiontype, CancellationToken ct = default);
         /// <summary>
         /// Retrieves a list of open stop orders for a symbol. Requires API credentials
